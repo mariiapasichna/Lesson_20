@@ -29,26 +29,26 @@ public class Task1 {
         storage.addUser(new User("Alex", 22));
         storage.addUser(new User("Ben", 33));
         storage.addUser(new User("Carl", 33));
-        storage.getAllUsers();
+        System.out.println(storage.getAllUsers());
         storage.removeAll();
-        storage.getAllUsers();
+        System.out.println(storage.getAllUsers());
         storage.addUser(new User("Jon", 33));
         storage.addUser(new User("Anna", 33));
         storage.addUser(new User("Bob", 33));
         storage.addUser(new User("Helen", 33));
-        storage.getAllUsers();
+        System.out.println(storage.getAllUsers());
         storage.removeUserByName("Anna");
-        storage.getAllUsers();
+        System.out.println(storage.getAllUsers());
         System.out.println(storage.getUser(3));
         storage.updateUser(new User(2, "Bob", 44));
-        storage.getAllUsers();
+        System.out.println(storage.getAllUsers());
         storage.removeUser(2);
-        storage.getAllUsers();
+        System.out.println(storage.getAllUsers());
         storage.addUser(new User("Bill", 11));
-        storage.getAllUsers();
+        System.out.println(storage.getAllUsers());
         storage.removeUser(1);
-        storage.getAllUsers();
+        System.out.println(storage.getAllUsers());
         storage.addUser(new User("Anna", 23));
-        storage.getAllUsers();
+        System.out.println(storage.getAllUsers());
     }
 }

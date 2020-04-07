@@ -17,10 +17,15 @@ public class FileStorage implements Storage {
         if (instance == null) {
             instance = new FileStorage(fileName);
         }
+        instance.setFileName(fileName);
         return instance;
     }
 
-    public FileStorage(String fileName) {
+    private FileStorage(String fileName) {
+        this.fileName = fileName;
+    }
+
+    private void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
@@ -57,6 +62,7 @@ public class FileStorage implements Storage {
             if (user1.getId() == user.getId()) {
                 user1.setName(user.getName());
                 user1.setAge(user.getAge());
+                break;
             }
         }
         save();
@@ -83,7 +89,6 @@ public class FileStorage implements Storage {
             idAdd++;
         }
         save();
-        System.out.println(list);
         return list;
     }
 
