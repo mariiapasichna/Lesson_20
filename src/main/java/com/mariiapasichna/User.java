@@ -1,8 +1,13 @@
 package com.mariiapasichna;
 
+import com.google.gson.annotations.Expose;
+
 public class User {
+    @Expose
     int id;
+    @Expose
     String name;
+    @Expose
     int age;
 
     public User(String name, int age) {

@@ -2,6 +2,7 @@ package com.mariiapasichna;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -9,8 +10,10 @@ import java.util.List;
 
 public class FileStorage implements Storage {
     private static FileStorage instance;
-    List<User> list = new ArrayList<>();
     private String fileName;
+    @Expose
+    private List<User> list = new ArrayList<>();
+    @Expose
     private int idAdd = 1;
 
     public static synchronized FileStorage getInstance(String fileName) {
@@ -80,9 +83,7 @@ public class FileStorage implements Storage {
 
     @Override
     public List<User> getAllUsers() {
-        SaveStorage saveStorage = load();
-        this.idAdd = saveStorage.idAdd;
-        this.list = saveStorage.list;
+        load();
         idAdd = 1;
         for (User user : list) {
             user.setId(idAdd);
@@ -93,35 +94,23 @@ public class FileStorage implements Storage {
     }
 
     private void save() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            Gson gson = new GsonBuilder().create();
-            SaveStorage saveStorage = new SaveStorage(idAdd, list);
-            writer.write(gson.toJson(saveStorage));
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName))) {
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+            bufferedWriter.write(gson.toJson(this));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private SaveStorage load() {
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+    private void load() {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
             String load;
-            while ((load = br.readLine()) != null) {
+            while ((load = bufferedReader.readLine()) != null) {
                 Gson gson = new GsonBuilder().create();
-                return gson.fromJson(load, SaveStorage.class);
+                FileStorage fileStorage = gson.fromJson(load, FileStorage.class);
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        return null;
-    }
-
-    private static class SaveStorage {
-        int idAdd;
-        List<User> list;
-
-        public SaveStorage(int idAdd, List<User> list) {
-            this.idAdd = idAdd;
-            this.list = list;
         }
     }
 }
